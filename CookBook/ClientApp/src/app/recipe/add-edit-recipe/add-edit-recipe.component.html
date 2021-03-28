@@ -3,13 +3,17 @@
     <label class="col-sm-2 col-form-label">Employee Name</label>
 
     <div class="col-sm-10">
-      <input type="text" [(ngModel)]="Title" class="form-control" placeholder="Enter Recipe Name" />
+      <input [(ngModel)]="Title"
+             class="form-control"
+             placeholder="Enter Recipe Name"
+             required
+             #name="ngModel"/>
     </div>
 
-    <label class="col-sm-2 col-form-label">Ingredient</label>
+    <label class="col-sm-2 col-form-label" for="ingredientSelect">Ingredient</label>
 
     <div class="col-sm-10">
-      <select class="form-control" [(ngModel)]="Ingredient">
+      <select class="form-control custom-select" id="ingredientSelect" [(ngModel)]="Ingredient">
         <option>--Select--</option>
         <option *ngFor="let depName of IngredientsList">
           {{depName}}
@@ -19,16 +23,25 @@
 
     <label class="col-sm-2 col-form-label">Created On</label>
 
-    <div class="col-sm-10">
-      <input type="date" [(ngModel)]="CreatedOn" />
+    <div class="col-sm-10 pt-3">
+      <input type="date"
+             [(ngModel)]="CreatedOn"
+             required
+             #date="ngModel"/>
     </div>
   </div>
 </div>
 
-<button (click)="addRecipe()" *ngIf="rec.recipeId == 0" class="btn-primary btn-primary">
+<button (click)="addRecipe()"
+        *ngIf="rec.recipeId == 0"
+        class="btn btn-info btn-lg btn-block"
+        [disabled]="name.invalid || date.invalid">
   Add
 </button>
 
-<button (click)="updateRecipe()" *ngIf="rec.recipeId != 0" class="btn-primary btn-primary">
+<button (click)="updateRecipe()"
+        *ngIf="rec.recipeId != 0"
+        class="btn btn-info btn-lg btn-block"
+        [disabled]="name.invalid || date.invalid">
   Update
 </button>

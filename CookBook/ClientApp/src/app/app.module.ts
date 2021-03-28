@@ -34,10 +34,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
-    { path: '', redirectTo: '/ingredient', pathMatch: 'full' },
-    { path: 'recipe', component: RecipeComponent },
-    { path: 'ingredient', component: IngredientComponent }
-], { relativeLinkResolution: 'legacy' })
+      { path: '', redirectTo: '/ingredient', pathMatch: 'full' },
+      { path: 'recipe', component: RecipeComponent },
+      { path: 'ingredient', component: IngredientComponent }
+    ], { relativeLinkResolution: 'legacy' })
   ],
   providers: [ServiceDataService],
   bootstrap: [AppComponent]
