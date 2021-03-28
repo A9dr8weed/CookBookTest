@@ -21,44 +21,69 @@ namespace CookBook.Controllers
             _db = db;
         }
 
-        [HttpGet]
-        public JsonResult Get()
+        [HttpGet(Name = "GetRecipe")]
+        public IActionResult Get()
         {
             IOrderedQueryable<Recipe> query = _db.Recipes.OrderBy(x => x.RecipeId);
 
-            return new JsonResult(query);
+            return Ok(query);
         }
 
         [HttpPost]
-        public JsonResult Post(Recipe recipe)
+        public IActionResult Post([FromBody] Recipe recipe)
         {
+            if (recipe == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
             _db.Recipes.Add(recipe);
             _db.SaveChanges();
-            return new JsonResult("Add successesfully");
+
+            return CreatedAtRoute("GetRecipe", new { id = recipe.RecipeId }, recipe);
         }
 
         [HttpPut]
-        public JsonResult Put(Recipe recipe)
+        public IActionResult Put(Recipe recipe)
         {
+            if (recipe == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
             _db.Entry(recipe).State = EntityState.Modified;
             _db.SaveChanges();
-            return new JsonResult("Update successesfully");
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Not a valid recipe id");
+            }
+
             Recipe query = _db.Recipes.Find(id);
+
+            if (query == null)
+            {
+                return NotFound();
+            }
+
             _db.Recipes.Remove(query);
             _db.SaveChanges();
-            return new JsonResult("Deleted successesfully");
+
+            return Ok();
         }
 
         [Route("GetAllIngredientNames")]
-        public JsonResult GetAllIngredientNames()
+        public IActionResult GetAllIngredientNames()
         {
             IQueryable<string> query = _db.Ingredients.Select(x => x.Title);
-            return new JsonResult(query);
+
+            return Ok(query);
         }
     }
 }
